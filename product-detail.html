@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Sản Phẩm - MyStore</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome cho Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+    <!-- Navigation / Menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="index.html"><i class="fas fa-store text-primary me-2"></i>MyStore</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#footer">Liên hệ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb (Đường dẫn) -->
+    <div class="bg-light py-3 border-bottom">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0">
+                    <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Trang chủ</a></li>
+                    <li class="breadcrumb-item"><a href="index.html" class="text-decoration-none">Sản phẩm</a></li>
+                    <li class="breadcrumb-item active" id="breadcrumb-product" aria-current="page">Đang tải...</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content: Chi tiết sản phẩm -->
+    <div class="container my-5" id="product-content">
+        <div class="row bg-white p-4 rounded shadow-sm">
+            <!-- Hình ảnh lớn sản phẩm -->
+            <div class="col-md-6 mb-4 mb-md-0 text-center">
+                <div class="product-image-container overflow-hidden rounded border">
+                    <img id="product-img" src="" class="img-fluid detail-img w-100" alt="Sản phẩm">
+                </div>
+            </div>
+            
+            <!-- Thông tin chi tiết sản phẩm -->
+            <div class="col-md-6">
+                <h1 class="fw-bold mb-3 text-dark" id="product-name">Tên sản phẩm</h1>
+                
+                <div class="d-flex align-items-center mb-3">
+                    <div class="text-warning me-2">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <span class="text-muted">(128 đánh giá)</span>
+                </div>
+
+                <h2 class="text-danger fw-bold mb-4" id="product-price">0 VNĐ</h2>
+                
+                <p class="lead text-secondary mb-4" id="product-desc">
+                    Mô tả đang được cập nhật...
+                </p>
+                
+                <div class="product-specs mb-4">
+                    <table class="table table-borderless table-sm w-100 w-lg-75">
+                        <tbody>
+                            <tr>
+                                <td class="text-muted w-25">Thương hiệu:</td>
+                                <td class="fw-semibold" id="product-brand">Đang tải...</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Tình trạng:</td>
+                                <td class="fw-semibold text-success"><i class="fas fa-check-circle me-1"></i> Còn hàng</td>
+                            </tr>
+                            <tr>
+                                <td class="text-muted">Bảo hành:</td>
+                                <td class="fw-semibold">12 tháng chính hãng</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <hr>
+
+                <!-- Action Buttons -->
+                <div class="d-flex gap-3 mt-4 mb-5">
+                    <button class="btn btn-primary btn-lg flex-grow-1 action-btn" onclick="alert('Đã thêm vào giỏ hàng!')"><i class="fas fa-cart-plus me-2"></i> Thêm vào giỏ</button>
+                    <button class="btn btn-outline-danger btn-lg action-btn"><i class="far fa-heart"></i></button>
+                </div>
+                
+                <!-- Navigation Buttons -->
+                <div class="d-flex flex-column flex-sm-row gap-3 bg-light p-3 rounded">
+                    <a href="index.html" class="btn btn-outline-secondary flex-grow-1 nav-btn"><i class="fas fa-arrow-left me-2"></i> Quay lại</a>
+                    <a href="index.html" class="btn btn-outline-primary flex-grow-1 nav-btn"><i class="fas fa-shopping-bag me-2"></i> Tiếp tục mua sắm</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script xử lý hiển thị sản phẩm đúng theo ID -->
+    <script>
+        // Danh sách dữ liệu sản phẩm (Giả lập database)
+        const products = [
+            {
+                id: 1,
+                name: "Điện Thoại Thông Minh X",
+                price: "15.000.000 VNĐ",
+                desc: "Điện Thoại Thông Minh X mang đến trải nghiệm tuyệt đỉnh với màn hình OLED 6.5 inch sống động. Cụm camera 64MP bắt trọn mọi khoảnh khắc, cùng viên pin 5000mAh cho thời gian sử dụng cả ngày dài mà không lo gián đoạn.",
+                img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=800&auto=format&fit=crop",
+                brand: "TechBrand"
+            },
+            {
+                id: 2,
+                name: "Laptop Đồ Họa Pro",
+                price: "25.500.000 VNĐ",
+                desc: "Laptop Đồ Họa Pro là người bạn đồng hành lý tưởng cho các nhà thiết kế. Với CPU i7 thế hệ mới nhất và card đồ họa rời mạnh mẽ, mọi tác vụ render hay chỉnh sửa video đều trở nên mượt mà.",
+                img: "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=800&auto=format&fit=crop",
+                brand: "DesignMaster"
+            },
+            {
+                id: 3,
+                name: "Tai Nghe Không Dây Y",
+                price: "2.500.000 VNĐ",
+                desc: "Tai Nghe Không Dây Y cung cấp chất lượng âm thanh Hi-Fi với công nghệ chống ồn chủ động (ANC). Thiết kế công thái học giúp bạn đeo thoải mái trong nhiều giờ liên tục.",
+                img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=800&auto=format&fit=crop",
+                brand: "AudioMax"
+            },
+            {
+                id: 4,
+                name: "Đồng Hồ Thông Minh Z",
+                price: "4.200.000 VNĐ",
+                desc: "Đồng Hồ Thông Minh Z không chỉ là phụ kiện thời trang mà còn là trợ lý sức khỏe đắc lực. Theo dõi nhịp tim, giấc ngủ và hơn 100 chế độ tập luyện thể thao chuyên nghiệp.",
+                img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=800&auto=format&fit=crop",
+                brand: "FitTech"
+            }
+        ];
+
+        // Hàm lấy ID từ URL (ví dụ: ?id=1)
+        function getProductIdFromUrl() {
+            const params = new URLSearchParams(window.location.search);
+            return parseInt(params.get('id'));
+        }
+
+        // Hiển thị thông tin
+        const productId = getProductIdFromUrl();
+        const product = products.find(p => p.id === productId);
+
+        if (product) {
+            document.getElementById('product-name').innerText = product.name;
+            document.getElementById('breadcrumb-product').innerText = product.name;
+            document.getElementById('product-price').innerText = product.price;
+            document.getElementById('product-desc').innerText = product.desc;
+            document.getElementById('product-brand').innerText = product.brand;
+            document.getElementById('product-img').src = product.img;
+            document.getElementById('product-img').alt = product.name;
+        } else {
+            // Nếu không tìm thấy sản phẩm (ID sai)
+            document.getElementById('product-content').innerHTML = `
+                <div class="text-center py-5">
+                    <h3>Rất tiếc, không tìm thấy sản phẩm này!</h3>
+                    <a href="index.html" class="btn btn-primary mt-3">Quay lại cửa hàng</a>
+                </div>
+            `;
+        }
+    </script>
+
+    <!-- Chân trang / Footer -->
+    <footer id="footer" class="bg-dark text-light pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- Cột 1 -->
+                <div class="col-md-4 mb-4 footer-col">
+                    <h5 class="mb-3 text-uppercase fw-bold text-primary">Về MyStore</h5>
+                    <p class="text-secondary">MyStore là hệ thống cửa hàng bán lẻ hàng đầu cung cấp các sản phẩm công nghệ chất lượng cao với giá cả cạnh tranh nhất thị trường. Sự hài lòng của bạn là động lực phát triển của chúng tôi.</p>
+                </div>
+                <!-- Cột 2 -->
+                <div class="col-md-4 mb-4 footer-col">
+                    <h5 class="mb-3 text-uppercase fw-bold text-primary">Liên kết hữu ích</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li class="mb-2"><a href="index.html"><i class="fas fa-chevron-right me-2 small"></i>Trang chủ</a></li>
+                        <li class="mb-2"><a href="index.html"><i class="fas fa-chevron-right me-2 small"></i>Sản phẩm</a></li>
+                        <li class="mb-2"><a href="#footer"><i class="fas fa-chevron-right me-2 small"></i>Liên hệ</a></li>
+                        <li class="mb-2"><a href="#"><i class="fas fa-chevron-right me-2 small"></i>Chính sách bảo hành</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2 small"></i>Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+                <!-- Cột 3 -->
+                <div class="col-md-4 mb-4 footer-col">
+                    <h5 class="mb-3 text-uppercase fw-bold text-primary">Thông tin liên hệ</h5>
+                    <ul class="list-unstyled text-secondary">
+                        <li class="mb-3 d-flex"><i class="fas fa-map-marker-alt mt-1 me-3 text-primary"></i> <span>123 Đường Công Nghệ, Quận 1, TP. Hồ Chí Minh</span></li>
+                        <li class="mb-3 d-flex"><i class="fas fa-phone mt-1 me-3 text-primary"></i> <span>0123 456 789 (Hỗ trợ 24/7)</span></li>
+                        <li class="d-flex"><i class="fas fa-envelope mt-1 me-3 text-primary"></i> <span>contact@mystore.com</span></li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="border-secondary mt-4 mb-3">
+            <div class="text-center text-secondary">
+                <small>&copy; 2026 MyStore. Tất cả các quyền được bảo lưu.</small>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle (bao gồm Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
