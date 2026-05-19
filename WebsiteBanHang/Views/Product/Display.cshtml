@@ -1,0 +1,27 @@
+@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Chi tiết Sản phẩm";
+}
+
+<h2 class="mb-4">Chi tiết Sản Phẩm</h2>
+<div class="card shadow-sm mt-3" style="max-width: 600px;">
+    <div class="card-body">
+        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+        {
+            <div class="text-center mb-3">
+                <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded border" style="max-width: 250px; max-height: 250px; object-fit: cover;" />
+            </div>
+        }
+        <h3 class="card-title text-primary">@Model.Name</h3>
+        <hr />
+        <h5 class="card-subtitle mb-3 text-danger">Giá: @Model.Price?.ToString("N0") VNĐ</h5>
+        <p class="card-text"><strong>Mô tả:</strong> @Model.Description</p>
+        <p class="card-text"><strong>Danh mục ID:</strong> @Model.CategoryId</p>
+        
+        <div class="mt-4">
+            <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
+            <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>

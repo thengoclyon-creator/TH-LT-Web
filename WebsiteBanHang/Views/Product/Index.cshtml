@@ -1,0 +1,55 @@
+@model IEnumerable<WebsiteBanHang.Models.Product>
+
+@{
+    ViewData["Title"] = "Danh sách Sản phẩm";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
+        <i class="fas fa-check-circle me-2"></i> @TempData["Message"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<h2 class="mb-4">Danh sách Sản Phẩm</h2>
+<a asp-action="Add" class="btn btn-primary mb-3"><i class="fas fa-plus"></i> Thêm mới Sản Phẩm</a>
+
+<table class="table table-bordered table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Id</th>
+            <th>Ảnh</th>
+            <th>Tên</th>
+            <th>Giá</th>
+            <th>Danh mục (ID)</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.ImageUrl))
+                    {
+                        <img src="@item.ImageUrl" alt="@item.Name" style="max-width: 50px; max-height: 50px; object-fit: cover;" class="rounded border" />
+                    }
+                    else
+                    {
+                        <span class="text-muted small">Không có ảnh</span>
+                    }
+                </td>
+                <td>@item.Name</td>
+                <td>@item.Price?.ToString("N0") VNĐ</td>
+                <td>@item.CategoryId</td>
+                <td>
+                    <a asp-action="Display" asp-route-id="@item.Id" class="btn btn-info btn-sm">Xem</a>
+                    <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Sửa</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-sm">Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

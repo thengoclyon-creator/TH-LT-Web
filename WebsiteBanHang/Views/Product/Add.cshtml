@@ -1,0 +1,51 @@
+@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Thêm Sản phẩm";
+}
+
+<h2 class="mb-4">Thêm Sản Phẩm Mới</h2>
+<div class="card shadow-sm" style="max-width: 600px;">
+    <div class="card-body">
+        <form asp-action="Add" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold">Tên sản phẩm</label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Price" class="form-label fw-bold">Giá (VNĐ)</label>
+                <input asp-for="Price" type="number" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label for="image" class="form-label fw-bold">Hình ảnh sản phẩm</label>
+                <input type="file" name="image" id="image" class="form-control" accept="image/*" />
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="Description" class="form-label fw-bold">Mô tả</label>
+                <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+            </div>
+            
+            <div class="mb-3">
+                <label asp-for="CategoryId" class="form-label fw-bold">Danh mục</label>
+                <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories">
+                    <option value="">-- Chọn Danh Mục --</option>
+                </select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success">Thêm Mới</button>
+                <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
