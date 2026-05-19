@@ -32,3 +32,34 @@ C:\DA WEB\TH web\WebsiteBanHang\obj\Debug\net8.0\refint\WebsiteBanHang.dll
 C:\DA WEB\TH web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.pdb
 C:\DA WEB\TH web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.genruntimeconfig.cache
 C:\DA WEB\TH web\WebsiteBanHang\obj\Debug\net8.0\ref\WebsiteBanHang.dll
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\bin\Debug\net8.0\appsettings.Development.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\bin\Debug\net8.0\appsettings.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\bin\Debug\net8.0\WebsiteBanHang.staticwebassets.runtime.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\bin\Debug\net8.0\WebsiteBanHang.exe
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\bin\Debug\net8.0\WebsiteBanHang.deps.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\bin\Debug\net8.0\WebsiteBanHang.runtimeconfig.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\bin\Debug\net8.0\WebsiteBanHang.dll
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\bin\Debug\net8.0\WebsiteBanHang.pdb
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.GeneratedMSBuildEditorConfig.editorconfig
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.AssemblyInfoInputs.cache
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.AssemblyInfo.cs
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.csproj.CoreCompileInputs.cache
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.MvcApplicationPartsAssemblyInfo.cache
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.RazorAssemblyInfo.cache
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.RazorAssemblyInfo.cs
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.sourcelink.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\staticwebassets.build.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\staticwebassets.development.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\staticwebassets\msbuild.WebsiteBanHang.Microsoft.AspNetCore.StaticWebAssets.props
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\staticwebassets\msbuild.build.WebsiteBanHang.props
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.WebsiteBanHang.props
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.WebsiteBanHang.props
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\staticwebassets.pack.json
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\scopedcss\bundle\WebsiteBanHang.styles.css
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\scopedcss\projectbundle\WebsiteBanHang.bundle.scp.css
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.dll
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\refint\WebsiteBanHang.dll
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.pdb
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\WebsiteBanHang.genruntimeconfig.cache
+M:\NguyenTheNgoc\TH-LT-Web\WebsiteBanHang\obj\Debug\net8.0\ref\WebsiteBanHang.dll

@@ -1,0 +1,24 @@
+@model WebsiteBanHang.Models.Category
+
+@{
+    ViewData["Title"] = "Chi tiết Danh mục " + Model.Name;
+}
+
+<h2 class="mb-4 border-bottom pb-2 fw-bold text-dark">Chi tiết Danh Mục</h2>
+
+<div class="card border-0 shadow-sm rounded-3">
+    <div class="card-body p-4">
+        <dl class="row mb-4">
+            <dt class="col-sm-3 text-muted">ID Danh mục:</dt>
+            <dd class="col-sm-9 fw-bold">#@Model.Id</dd>
+
+            <dt class="col-sm-3 text-muted">Tên Danh mục:</dt>
+            <dd class="col-sm-9 fw-bold text-primary">@Model.Name</dd>
+        </dl>
+        
+        <div class="d-flex gap-2 border-top pt-3">
+            <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning px-4 text-dark fw-bold"><i class="fas fa-edit me-2"></i> Chỉnh sửa</a>
+            <a asp-action="Index" class="btn btn-outline-secondary px-4">Quay lại danh sách</a>
+        </div>
+    </div>
+</div>

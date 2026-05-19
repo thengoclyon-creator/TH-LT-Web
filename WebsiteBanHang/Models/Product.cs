@@ -18,6 +18,12 @@ namespace WebsiteBanHang.Models
 
         public string? ImageUrl { get; set; }
 
+        public List<string>? ImageUrls { get; set; } = new List<string>();
+
+        public string? SubImageUrl { get; set; }
+
+        public string? Size { get; set; }
+
         [Required(ErrorMessage = "Danh mục là bắt buộc")]
         public int? CategoryId { get; set; }
     }

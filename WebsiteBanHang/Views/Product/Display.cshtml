@@ -1,27 +1,123 @@
 @model WebsiteBanHang.Models.Product
 
 @{
-    ViewData["Title"] = "Chi tiết Sản phẩm";
+    ViewData["Title"] = "Chi tiết " + Model.Name;
 }
 
-<h2 class="mb-4">Chi tiết Sản Phẩm</h2>
-<div class="card shadow-sm mt-3" style="max-width: 600px;">
-    <div class="card-body">
-        @if (!string.IsNullOrEmpty(Model.ImageUrl))
+<!-- Breadcrumb (Đường dẫn) -->
+<div class="bg-light py-3 border-bottom mb-4 rounded-top">
+    <div class="container-fluid px-0">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0 px-3">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index" class="text-decoration-none">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a asp-controller="Product" asp-action="Index" class="text-decoration-none">Sản phẩm</a></li>
+                <li class="breadcrumb-item active" aria-current="page">@Model.Name</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<!-- Main Content: Chi tiết sản phẩm -->
+<div class="row bg-white p-4 rounded shadow-sm border mb-4">
+    <!-- Hình ảnh sản phẩm (Ảnh chính & Bộ sưu tập) -->
+    <div class="col-md-6 mb-4 mb-md-0">
+        <div class="product-image-container overflow-hidden rounded border bg-light d-flex align-items-center justify-content-center" style="min-height: 400px;">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img id="main-product-img" src="@Model.ImageUrl" class="img-fluid detail-img w-100" alt="@Model.Name" style="max-height: 500px; object-fit: contain;">
+            }
+            else
+            {
+                <div class="text-muted">
+                    <i class="fas fa-image fa-5x mb-3 opacity-25"></i>
+                    <p>Chưa có hình ảnh</p>
+                </div>
+            }
+        </div>
+        
+        <!-- Bộ sưu tập nhiều ảnh chính -->
+        @if (Model.ImageUrls != null && Model.ImageUrls.Any())
         {
-            <div class="text-center mb-3">
-                <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded border" style="max-width: 250px; max-height: 250px; object-fit: cover;" />
+            <div class="d-flex gap-2 mt-3 justify-content-center flex-wrap">
+                <!-- Cho phép click vào ảnh thu nhỏ để hiển thị lên ảnh lớn -->
+                @foreach (var imgUrl in Model.ImageUrls)
+                {
+                    <img src="@imgUrl" class="img-thumbnail img-gallery-thumb" style="width: 70px; height: 70px; object-fit: cover; cursor: pointer; transition: all 0.2s;" onclick="document.getElementById('main-product-img').src='@imgUrl'" />
+                }
             </div>
         }
-        <h3 class="card-title text-primary">@Model.Name</h3>
-        <hr />
-        <h5 class="card-subtitle mb-3 text-danger">Giá: @Model.Price?.ToString("N0") VNĐ</h5>
-        <p class="card-text"><strong>Mô tả:</strong> @Model.Description</p>
-        <p class="card-text"><strong>Danh mục ID:</strong> @Model.CategoryId</p>
+    </div>
+    
+    <!-- Thông tin chi tiết sản phẩm -->
+    <div class="col-md-6">
+        <h1 class="fw-bold mb-3 text-dark">@Model.Name</h1>
         
-        <div class="mt-4">
-            <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-warning">Sửa</a>
-            <a asp-action="Index" class="btn btn-secondary">Quay lại danh sách</a>
+        <div class="d-flex align-items-center mb-3">
+            <div class="text-warning me-2">
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star"></i>
+                <i class="fas fa-star-half-alt"></i>
+            </div>
+            <span class="text-muted">(Đánh giá tốt)</span>
+        </div>
+
+        <h2 class="text-danger fw-bold mb-4">@Model.Price?.ToString("N0") VNĐ</h2>
+        
+        <p class="lead text-secondary mb-4">
+            @(string.IsNullOrEmpty(Model.Description) ? "Mô tả đang được cập nhật..." : Model.Description)
+        </p>
+        
+        <div class="product-specs mb-4">
+            <table class="table table-borderless table-sm w-100 w-lg-75">
+                <tbody>
+                    <tr>
+                        <td class="text-muted w-35">Danh mục ID:</td>
+                        <td class="fw-semibold">@Model.CategoryId</td>
+                    </tr>
+                    @if (!string.IsNullOrEmpty(Model.Size))
+                    {
+                        <tr>
+                            <td class="text-muted">Kích cỡ / Tùy chọn:</td>
+                            <td class="fw-semibold"><span class="badge bg-secondary fs-6">@Model.Size</span></td>
+                        </tr>
+                    }
+                    <tr>
+                        <td class="text-muted">Tình trạng:</td>
+                        <td class="fw-semibold text-success"><i class="fas fa-check-circle me-1"></i> Còn hàng</td>
+                    </tr>
+                    <tr>
+                        <td class="text-muted">Mã SP:</td>
+                        <td class="fw-semibold">#@Model.Id</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Hiển thị ảnh phụ góc khác (nếu có) -->
+        @if (!string.IsNullOrEmpty(Model.SubImageUrl))
+        {
+            <div class="mb-4 p-3 bg-light rounded border">
+                <h6 class="fw-bold mb-2 text-dark"><i class="fas fa-camera text-primary me-2"></i>Ảnh góc chụp khác (Ảnh phụ):</h6>
+                <div class="text-start">
+                    <img src="@Model.SubImageUrl" class="rounded border bg-white shadow-sm" style="max-height: 120px; object-fit: contain; cursor: pointer;" onclick="document.getElementById('main-product-img').src='@Model.SubImageUrl'" />
+                </div>
+            </div>
+        }
+        
+        <hr>
+
+        <!-- Action Buttons -->
+        <div class="d-flex gap-3 mt-4 mb-4">
+            <button class="btn btn-primary btn-lg flex-grow-1 action-btn" onclick="alert('Đã thêm vào giỏ hàng!')"><i class="fas fa-cart-plus me-2"></i> Thêm vào giỏ</button>
+            <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-outline-warning btn-lg action-btn" title="Cập nhật sản phẩm"><i class="fas fa-edit"></i></a>
+        </div>
+        
+        <!-- Navigation Buttons -->
+        <div class="d-flex flex-column flex-sm-row gap-3 bg-light p-3 rounded">
+            <a asp-action="Index" class="btn btn-outline-secondary flex-grow-1 nav-btn"><i class="fas fa-arrow-left me-2"></i> Quay lại</a>
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-primary flex-grow-1 nav-btn"><i class="fas fa-shopping-bag me-2"></i> Tiếp tục mua sắm</a>
         </div>
     </div>
 </div>

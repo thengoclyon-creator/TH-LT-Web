@@ -2,6 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repositories;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebsiteBanHang.Controllers
 {
@@ -44,14 +49,33 @@ namespace WebsiteBanHang.Controllers
 
         // Add (POST): Xử lý thêm sản phẩm
         [HttpPost]
-        public async Task<IActionResult> Add(Product product, IFormFile image)
+        public async Task<IActionResult> Add(Product product, IFormFile? image, List<IFormFile>? images, IFormFile? subImage)
         {
             if (ModelState.IsValid)
             {
+                // Lưu ảnh đại diện chính
                 if (image != null)
                 {
                     product.ImageUrl = await SaveImage(image);
                 }
+
+                // Lưu danh sách nhiều ảnh chính
+                if (images != null && images.Count > 0)
+                {
+                    product.ImageUrls = new List<string>();
+                    foreach (var img in images)
+                    {
+                        var url = await SaveImage(img);
+                        product.ImageUrls.Add(url);
+                    }
+                }
+
+                // Lưu ảnh phụ
+                if (subImage != null)
+                {
+                    product.SubImageUrl = await SaveImage(subImage);
+                }
+
                 _productRepository.AddProduct(product);
                 TempData["Message"] = "Thêm sản phẩm thành công!";
                 return RedirectToAction("Index");
@@ -78,14 +102,49 @@ namespace WebsiteBanHang.Controllers
 
         // Update (POST): Xử lý cập nhật
         [HttpPost]
-        public async Task<IActionResult> Update(Product product, IFormFile image)
+        public async Task<IActionResult> Update(Product product, IFormFile? image, List<IFormFile>? images, IFormFile? subImage, string? existingImageUrlsJson)
         {
             if (ModelState.IsValid)
             {
+                // Giữ lại các ảnh chính cũ nếu không upload ảnh mới
+                if (!string.IsNullOrEmpty(existingImageUrlsJson))
+                {
+                    try
+                    {
+                        product.ImageUrls = System.Text.Json.JsonSerializer.Deserialize<List<string>>(existingImageUrlsJson) ?? new List<string>();
+                    }
+                    catch
+                    {
+                        product.ImageUrls = new List<string>();
+                    }
+                }
+
+                // Cập nhật ảnh đại diện chính
                 if (image != null)
                 {
                     product.ImageUrl = await SaveImage(image);
                 }
+
+                // Cập nhật thêm danh sách nhiều ảnh chính mới (nếu có)
+                if (images != null && images.Count > 0)
+                {
+                    if (product.ImageUrls == null)
+                    {
+                        product.ImageUrls = new List<string>();
+                    }
+                    foreach (var img in images)
+                    {
+                        var url = await SaveImage(img);
+                        product.ImageUrls.Add(url);
+                    }
+                }
+
+                // Cập nhật ảnh phụ
+                if (subImage != null)
+                {
+                    product.SubImageUrl = await SaveImage(subImage);
+                }
+
                 _productRepository.UpdateProduct(product);
                 TempData["Message"] = "Cập nhật sản phẩm thành công!";
                 return RedirectToAction("Index");

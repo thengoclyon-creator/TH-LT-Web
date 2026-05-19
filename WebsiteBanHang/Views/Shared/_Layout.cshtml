@@ -1,51 +1,135 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - WebsiteBanHang</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] - MyStore</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome cho Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/WebsiteBanHang.styles.css" asp-append-version="true" />
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">WebsiteBanHang</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Index">Sản Phẩm</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Category" asp-action="Index">Danh Mục</a>
-                        </li>
+    <!-- Navigation / Menu -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index"><i class="fas fa-store text-primary me-2"></i>MyStore</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Home" ? "active" : "")" asp-controller="Home" asp-action="Index">Trang chủ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Product" ? "active" : "")" asp-controller="Product" asp-action="Index">Sản phẩm</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link @(ViewContext.RouteData.Values["Controller"]?.ToString() == "Category" ? "active" : "")" asp-controller="Category" asp-action="Index">Danh mục</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#footer">Liên hệ</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Layout -->
+    <div class="container my-5">
+        <div class="row">
+            <!-- Cột trái: Main Content -->
+            <div class="col-lg-9 col-md-8 mb-5 mb-md-0">
+                @RenderBody()
+            </div>
+
+            <!-- Cột phải: Sidebar Mạng xã hội -->
+            <div class="col-lg-3 col-md-4">
+                <div class="card sidebar-card sticky-top border-0 shadow-sm" style="top: 90px;">
+                    <div class="card-header bg-primary text-white border-0 rounded-top">
+                        <h5 class="mb-0 fw-bold"><i class="fas fa-share-alt me-2"></i>Mạng xã hội</h5>
+                    </div>
+                    <div class="card-body bg-white rounded-bottom">
+                        <ul class="list-unstyled social-links mb-0">
+                            <li class="mb-3">
+                                <a href="#" class="d-flex align-items-center text-decoration-none social-item">
+                                    <div class="icon-wrapper facebook"><i class="fab fa-facebook-f"></i></div>
+                                    <span class="ms-3 fw-semibold">Facebook</span>
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="d-flex align-items-center text-decoration-none social-item">
+                                    <div class="icon-wrapper twitter"><i class="fab fa-twitter"></i></div>
+                                    <span class="ms-3 fw-semibold">Twitter</span>
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="d-flex align-items-center text-decoration-none social-item">
+                                    <div class="icon-wrapper instagram"><i class="fab fa-instagram"></i></div>
+                                    <span class="ms-3 fw-semibold">Instagram</span>
+                                </a>
+                            </li>
+                            <li class="mb-3">
+                                <a href="#" class="d-flex align-items-center text-decoration-none social-item">
+                                    <div class="icon-wrapper linkedin"><i class="fab fa-linkedin-in"></i></div>
+                                    <span class="ms-3 fw-semibold">LinkedIn</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#" class="d-flex align-items-center text-decoration-none social-item">
+                                    <div class="icon-wrapper zalo"><i class="fas fa-comment-dots"></i></div>
+                                    <span class="ms-3 fw-semibold">Zalo</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chân trang / Footer -->
+    <footer id="footer" class="bg-dark text-light pt-5 pb-3 mt-5">
+        <div class="container">
+            <div class="row">
+                <!-- Cột 1 -->
+                <div class="col-md-4 mb-4 footer-col">
+                    <h5 class="mb-3 text-uppercase fw-bold text-primary">Về MyStore</h5>
+                    <p class="text-secondary">MyStore là hệ thống cửa hàng bán lẻ hàng đầu cung cấp các sản phẩm công nghệ chất lượng cao với giá cả cạnh tranh nhất thị trường. Sự hài lòng của bạn là động lực phát triển của chúng tôi.</p>
+                </div>
+                <!-- Cột 2 -->
+                <div class="col-md-4 mb-4 footer-col">
+                    <h5 class="mb-3 text-uppercase fw-bold text-primary">Liên kết hữu ích</h5>
+                    <ul class="list-unstyled footer-links">
+                        <li class="mb-2"><a asp-controller="Home" asp-action="Index"><i class="fas fa-chevron-right me-2 small"></i>Trang chủ</a></li>
+                        <li class="mb-2"><a asp-controller="Product" asp-action="Index"><i class="fas fa-chevron-right me-2 small"></i>Sản phẩm</a></li>
+                        <li class="mb-2"><a href="#footer"><i class="fas fa-chevron-right me-2 small"></i>Liên hệ</a></li>
+                        <li class="mb-2"><a href="#"><i class="fas fa-chevron-right me-2 small"></i>Chính sách bảo hành</a></li>
+                        <li><a href="#"><i class="fas fa-chevron-right me-2 small"></i>Điều khoản sử dụng</a></li>
+                    </ul>
+                </div>
+                <!-- Cột 3 -->
+                <div class="col-md-4 mb-4 footer-col">
+                    <h5 class="mb-3 text-uppercase fw-bold text-primary">Thông tin liên hệ</h5>
+                    <ul class="list-unstyled text-secondary">
+                        <li class="mb-3 d-flex"><i class="fas fa-map-marker-alt mt-1 me-3 text-primary"></i> <span>123 Đường Công Nghệ, Quận 1, TP. Hồ Chí Minh</span></li>
+                        <li class="mb-3 d-flex"><i class="fas fa-phone mt-1 me-3 text-primary"></i> <span>0123 456 789 (Hỗ trợ 24/7)</span></li>
+                        <li class="d-flex"><i class="fas fa-envelope mt-1 me-3 text-primary"></i> <span>contact@mystore.com</span></li>
                     </ul>
                 </div>
             </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2026 - WebsiteBanHang - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <hr class="border-secondary mt-4 mb-3">
+            <div class="text-center text-secondary">
+                <small>&copy; 2026 MyStore. Tất cả các quyền được bảo lưu.</small>
+            </div>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Bootstrap JS Bundle (bao gồm Popper) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
