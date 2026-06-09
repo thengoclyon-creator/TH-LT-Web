@@ -73,8 +73,8 @@
             <table class="table table-borderless table-sm w-100 w-lg-75">
                 <tbody>
                     <tr>
-                        <td class="text-muted w-35">Danh mục ID:</td>
-                        <td class="fw-semibold">@Model.CategoryId</td>
+                        <td class="text-muted w-35">Danh mục:</td>
+                        <td class="fw-semibold">@(Model.Category?.Name ?? Model.CategoryId.ToString())</td>
                     </tr>
                     @if (!string.IsNullOrEmpty(Model.Size))
                     {
@@ -110,7 +110,9 @@
 
         <!-- Action Buttons -->
         <div class="d-flex gap-3 mt-4 mb-4">
-            <button class="btn btn-primary btn-lg flex-grow-1 action-btn" onclick="alert('Đã thêm vào giỏ hàng!')"><i class="fas fa-cart-plus me-2"></i> Thêm vào giỏ</button>
+            <button type="button" onclick="addToCartApi(@Model.Id)" class="btn btn-primary btn-lg flex-grow-1 action-btn">
+                <i class="fas fa-cart-plus me-2"></i> Thêm vào giỏ
+            </button>
             <a asp-action="Update" asp-route-id="@Model.Id" class="btn btn-outline-warning btn-lg action-btn" title="Cập nhật sản phẩm"><i class="fas fa-edit"></i></a>
         </div>
         
@@ -121,3 +123,29 @@
         </div>
     </div>
 </div>
+
+@section Scripts {
+    <script>
+        function addToCartApi(productId) {
+            fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ productId: productId, quantity: 1 })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error('Network response was not ok');
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message || 'Thêm vào giỏ hàng thành công!');
+                // Bạn có thể update số lượng hiển thị trên icon giỏ hàng ở header tại đây
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Có lỗi xảy ra khi thêm vào giỏ hàng.');
+            });
+        }
+    </script>
+}

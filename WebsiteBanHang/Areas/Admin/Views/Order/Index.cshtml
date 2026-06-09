@@ -1,0 +1,41 @@
+@model IEnumerable<WebsiteBanHang.Models.Order>
+@{
+    ViewData["Title"] = "Quản lý Đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5 mb-5">
+    <h2>Quản lý Đơn hàng (Admin)</h2>
+    <table class="table table-bordered table-hover">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã ĐH</th>
+                <th>Khách hàng</th>
+                <th>Ngày đặt</th>
+                <th>Tổng tiền</th>
+                <th>Trạng thái</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in Model)
+            {
+                <tr>
+                    <td>#@order.Id</td>
+                    <td>@order.User?.FullName<br/><small class="text-muted">@order.User?.Email</small></td>
+                    <td>@order.OrderDate.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td class="text-danger fw-bold">@order.TotalPrice.ToString("#,##0") VNĐ</td>
+                    <td>
+                        @if (order.Status == "Chờ xử lý") { <span class="badge bg-warning text-dark">@order.Status</span> }
+                        else if (order.Status == "Đã xác nhận" || order.Status == "Đang giao") { <span class="badge bg-primary">@order.Status</span> }
+                        else if (order.Status == "Hoàn thành") { <span class="badge bg-success">@order.Status</span> }
+                        else { <span class="badge bg-secondary">@order.Status</span> }
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@order.Id" class="btn btn-sm btn-info text-white">Xem chi tiết</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

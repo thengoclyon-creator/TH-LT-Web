@@ -14,7 +14,9 @@
 
 <div class="d-flex justify-content-between align-items-center mb-4 border-bottom pb-2">
     <h2 class="fw-bold text-dark mb-0">Danh sách sản phẩm</h2>
-    <a asp-action="Add" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm mới</a>
+    @if(User.IsInRole("Admin")) {
+        <a asp-area="Admin" asp-controller="Product" asp-action="Add" class="btn btn-primary"><i class="fas fa-plus"></i> Thêm mới</a>
+    }
 </div>
 
 <div class="product-grid">
@@ -22,7 +24,7 @@
     {
         @foreach (var item in Model)
         {
-            <div class="card h-100 product-card">
+            <div class="card h-100 product-card" id="product-card-@item.Id">
                 <a asp-action="Display" asp-route-id="@item.Id" class="overflow-hidden text-center bg-light">
                     @if (!string.IsNullOrEmpty(item.ImageUrl))
                     {
@@ -42,11 +44,20 @@
                     <p class="card-text text-muted small">@item.Description</p>
                     <h5 class="text-danger mt-auto mb-3 fw-bold">@item.Price?.ToString("N0") VNĐ</h5>
                     
-                    <!-- Admin Actions -->
-                    <div class="d-flex gap-2 mt-2 pt-2 border-top">
-                        <a asp-action="Update" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm flex-grow-1"><i class="fas fa-edit"></i> Sửa</a>
-                        <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-outline-danger btn-sm flex-grow-1"><i class="fas fa-trash"></i> Xóa</a>
-                    </div>
+                    <!-- Add to cart -->
+                    <form asp-action="AddToCart" asp-controller="Cart" method="post" class="mt-2">
+                        <input type="hidden" name="productId" value="@item.Id" />
+                        <button type="submit" class="btn btn-success w-100"><i class="fas fa-cart-plus"></i> Thêm vào giỏ</button>
+                    </form>
+
+                    @if(User.IsInRole("Admin")) {
+                        <!-- Admin Actions -->
+                        <div class="d-flex gap-2 mt-2 pt-2 border-top">
+                            <a asp-area="Admin" asp-controller="Product" asp-action="Update" asp-route-id="@item.Id" class="btn btn-outline-warning btn-sm flex-grow-1"><i class="fas fa-edit"></i> Sửa</a>
+                            <button onclick="deleteProductApi(@item.Id)" class="btn btn-outline-danger btn-sm flex-grow-1"><i class="fas fa-trash"></i> Xóa</button>
+                        </div>
+                    }
+                    
                 </div>
             </div>
         }
@@ -58,3 +69,30 @@
         </div>
     }
 </div>
+
+@section Scripts {
+    <script>
+        function deleteProductApi(id) {
+            if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi hệ thống?')) {
+                fetch(`/api/admin/product/${id}`, {
+                    method: 'DELETE'
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    alert(data.message || 'Xóa thành công');
+                    const card = document.getElementById(`product-card-${id}`);
+                    if (card) {
+                        card.remove(); // Xóa trực tiếp trên màn hình không cần tải lại
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra khi xóa sản phẩm.');
+                });
+            }
+        }
+    </script>
+}

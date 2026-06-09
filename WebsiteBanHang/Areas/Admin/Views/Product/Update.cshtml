@@ -1,0 +1,143 @@
+@model WebsiteBanHang.Models.Product
+
+@{
+    ViewData["Title"] = "Cập nhật Sản phẩm";
+}
+
+<h2 class="mb-4 border-bottom pb-2 fw-bold text-dark">Cập nhật Sản Phẩm</h2>
+
+<div class="card border-0 shadow-sm rounded-3">
+    <div class="card-body p-4">
+        <form id="updateProductForm" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="ImageUrl" />
+            <input type="hidden" asp-for="SubImageUrl" />
+            
+            <!-- Truyền lại danh sách ảnh chính hiện tại dưới dạng JSON ẩn -->
+            <input type="hidden" name="existingImageUrlsJson" value="@(Model.ImageUrls != null ? System.Text.Json.JsonSerializer.Serialize(Model.ImageUrls) : "[]")" />
+            
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label fw-bold">Tên sản phẩm</label>
+                <input asp-for="Name" class="form-control form-control-lg" placeholder="Nhập tên sản phẩm..." />
+                <span asp-validation-for="Name" class="text-danger small"></span>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label asp-for="Price" class="form-label fw-bold">Giá (VNĐ)</label>
+                    <input asp-for="Price" type="number" class="form-control" placeholder="0" />
+                    <span asp-validation-for="Price" class="text-danger small"></span>
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label asp-for="CategoryId" class="form-label fw-bold">Danh mục</label>
+                    <select asp-for="CategoryId" class="form-select" asp-items="ViewBag.Categories"></select>
+                    <span asp-validation-for="CategoryId" class="text-danger small"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="image" class="form-label fw-bold">Thay đổi ảnh đại diện chính</label>
+                    <input type="file" name="image" id="image" class="form-control" accept="image/*" />
+                    @if (!string.IsNullOrEmpty(Model.ImageUrl))
+                    {
+                        <div class="mt-2 p-2 bg-light rounded d-inline-block border">
+                            <small class="text-muted d-block mb-1">Ảnh đại diện hiện tại:</small>
+                            <img src="@Model.ImageUrl" alt="Ảnh hiện tại" style="height: 80px; object-fit: cover;" class="rounded" />
+                        </div>
+                    }
+                </div>
+                
+                <div class="col-md-6 mb-3">
+                    <label for="subImage" class="form-label fw-bold">Thay đổi ảnh phụ</label>
+                    <input type="file" name="subImage" id="subImage" class="form-control" accept="image/*" />
+                    @if (!string.IsNullOrEmpty(Model.SubImageUrl))
+                    {
+                        <div class="mt-2 p-2 bg-light rounded d-inline-block border">
+                            <small class="text-muted d-block mb-1">Ảnh phụ hiện tại:</small>
+                            <img src="@Model.SubImageUrl" alt="Ảnh phụ hiện tại" style="height: 80px; object-fit: cover;" class="rounded" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="images" class="form-label fw-bold">Bổ sung thêm các ảnh chính (Chọn nhiều ảnh)</label>
+                <input type="file" name="images" id="images" class="form-control" accept="image/*" multiple />
+                
+                @if (Model.ImageUrls != null && Model.ImageUrls.Any())
+                {
+                    <div class="mt-2 p-2 bg-light rounded border">
+                        <small class="text-muted d-block mb-2">Danh sách ảnh chính hiện có:</small>
+                        <div class="d-flex gap-2 flex-wrap">
+                            @foreach (var imgUrl in Model.ImageUrls)
+                            {
+                                <img src="@imgUrl" style="height: 60px; width: 60px; object-fit: cover;" class="rounded border" />
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Size" class="form-label fw-bold">Kích cỡ / Tùy chọn (Ví dụ: S, M, L hoặc 128GB, 256GB)</label>
+                <input asp-for="Size" class="form-control" placeholder="Nhập các kích cỡ hoặc phiên bản..." />
+                <span asp-validation-for="Size" class="text-danger small"></span>
+            </div>
+            
+            <div class="mb-4">
+                <label asp-for="Description" class="form-label fw-bold">Mô tả chi tiết</label>
+                <textarea asp-for="Description" class="form-control" rows="5" placeholder="Viết mô tả cho sản phẩm..."></textarea>
+            </div>
+            
+            <div class="d-flex gap-2 border-top pt-3">
+                <button type="submit" class="btn btn-warning px-4 text-dark fw-bold"><i class="fas fa-save me-2"></i> Lưu thay đổi</button>
+                <a asp-action="Index" class="btn btn-outline-secondary px-4">Hủy</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        document.getElementById('updateProductForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Ngăn form tự động reload trang
+            
+            var form = this;
+            var formData = new FormData(form);
+            var productId = formData.get('Id');
+            
+            // Có thể thêm loading state ở đây
+            var btnSubmit = form.querySelector('button[type="submit"]');
+            var originalText = btnSubmit.innerHTML;
+            btnSubmit.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Đang lưu...';
+            btnSubmit.disabled = true;
+
+            fetch(`/api/admin/product/${productId}`, {
+                method: 'PUT',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Có lỗi xảy ra khi gọi API');
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(data.message || 'Cập nhật sản phẩm thành công!');
+                window.location.href = '/Admin/Product/Index'; // Chuyển về trang danh sách
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Cập nhật sản phẩm thất bại. Vui lòng thử lại.');
+            })
+            .finally(() => {
+                btnSubmit.innerHTML = originalText;
+                btnSubmit.disabled = false;
+            });
+        });
+    </script>
+}

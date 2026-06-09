@@ -1,0 +1,158 @@
+@model List<WebsiteBanHang.Models.CartItem>
+@{
+    ViewData["Title"] = "Thanh toán";
+}
+
+<div class="container mt-5 mb-5">
+    <h2>Thanh toán đơn hàng</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-7">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">Thông tin giao hàng</h5>
+                </div>
+                <div class="card-body">
+                    <form asp-action="ProcessCheckout" asp-controller="Cart" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Khu vực giao hàng (Tính phí ship)</label>
+                            <select name="district" id="districtSelect" class="form-select" required>
+                                <option value="" data-fee="0">-- Chọn Khu vực / Quận Huyện --</option>
+                                <option value="Quận 1, TP.HCM" data-fee="15000">Quận 1, TP.HCM (15,000 VNĐ)</option>
+                                <option value="Quận 3, TP.HCM" data-fee="15000">Quận 3, TP.HCM (15,000 VNĐ)</option>
+                                <option value="Quận 10, TP.HCM" data-fee="20000">Quận 10, TP.HCM (20,000 VNĐ)</option>
+                                <option value="Quận Bình Thạnh, TP.HCM" data-fee="20000">Quận Bình Thạnh, TP.HCM (20,000 VNĐ)</option>
+                                <option value="TP. Thủ Đức, TP.HCM" data-fee="30000">TP. Thủ Đức, TP.HCM (30,000 VNĐ)</option>
+                                <option value="Quận 9, TP.HCM" data-fee="35000">Quận 9, TP.HCM (35,000 VNĐ)</option>
+                                <option value="Huyện Bình Chánh, TP.HCM" data-fee="50000">Huyện Bình Chánh, TP.HCM (50,000 VNĐ)</option>
+                                <option value="Tỉnh/Thành Khác" data-fee="70000">Tỉnh/Thành Khác (70,000 VNĐ)</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Địa chỉ chi tiết</label>
+                            <input type="text" name="shippingAddress" class="form-control" placeholder="Số nhà, tên đường, phường/xã..." required />
+                            <input type="hidden" id="shippingFeeInput" name="shippingFee" value="0" />
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Ghi chú (Tùy chọn)</label>
+                            <textarea name="notes" class="form-control" rows="2" placeholder="Ghi chú về thời gian giao hàng..."></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Phương thức thanh toán</label>
+                            <div class="form-check mb-2">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payCOD" value="COD" checked>
+                                <label class="form-check-label" for="payCOD">
+                                    <i class="fas fa-truck text-primary me-2"></i>Thanh toán khi nhận hàng (COD)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="paymentMethod" id="payTransfer" value="Chuyển khoản">
+                                <label class="form-check-label" for="payTransfer">
+                                    <i class="fas fa-qrcode text-success me-2"></i>Chuyển khoản qua quét mã QR
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Khu vực hiển thị mã QR (mặc định ẩn) -->
+                        <div id="qrCodeContainer" class="mb-3 p-3 border rounded bg-light text-center" style="display: none;">
+                            <h6 class="fw-bold text-success mb-2">Quét mã VietQR để thanh toán</h6>
+                            <img id="qrCodeImage" src="" alt="Mã QR Thanh Toán" class="img-fluid border rounded shadow-sm mb-2" style="max-width: 250px;">
+                            <div class="text-start small text-muted bg-white p-2 border rounded">
+                                <p class="mb-1"><strong>Ngân hàng:</strong> MB Bank</p>
+                                <p class="mb-1"><strong>Số TK:</strong> 0945600357</p>
+                                <p class="mb-1"><strong>Chủ TK:</strong> NGUYEN THE NGOC</p>
+                                <p class="mb-0 text-danger mt-1"><i class="fas fa-info-circle me-1"></i> Số tiền đã được tự động điền. Vui lòng kiểm tra kỹ trước khi chuyển.</p>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success btn-lg w-100 mt-2">Xác nhận Đặt hàng</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="card shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <h5 class="mb-0">Tóm tắt đơn hàng</h5>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group list-group-flush mb-3">
+                        @foreach (var item in Model)
+                        {
+                            <li class="list-group-item d-flex justify-content-between lh-sm px-0">
+                                <div>
+                                    <h6 class="my-0">@item.ProductName</h6>
+                                    <small class="text-muted">Số lượng: @item.Quantity</small>
+                                </div>
+                                <span class="text-muted">@item.Total.ToString("#,##0") VNĐ</span>
+                            </li>
+                        }
+                    </ul>
+                    <div class="d-flex justify-content-between border-top pt-3 fw-bold fs-6">
+                        <span>Tổng tiền hàng:</span>
+                        <span id="cartTotal" data-total="@Model.Sum(x => x.Total)">@Model.Sum(x => x.Total).ToString("#,##0") VNĐ</span>
+                    </div>
+                    <div class="d-flex justify-content-between pt-1 fw-bold fs-6">
+                        <span>Phí giao hàng:</span>
+                        <span id="shippingFeeDisplay">0 VNĐ</span>
+                    </div>
+                    <div class="d-flex justify-content-between border-top mt-2 pt-2 fw-bold fs-5 text-danger">
+                        <span>Tổng thanh toán:</span>
+                        <span id="finalTotalDisplay">@Model.Sum(x => x.Total).ToString("#,##0") VNĐ</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Hàm cập nhật ảnh QR
+        function updateQRCode(finalTotal) {
+            var qrUrl = `https://img.vietqr.io/image/mb-0945600357-compact2.png?amount=${finalTotal}&addInfo=ThanhToan&accountName=NGUYEN THE NGOC`;
+            document.getElementById('qrCodeImage').src = qrUrl;
+        }
+
+        document.getElementById('districtSelect').addEventListener('change', function(e) {
+            var selectedOption = this.options[this.selectedIndex];
+            var shippingFee = parseInt(selectedOption.getAttribute('data-fee') || '0', 10);
+            
+            var cartTotalStr = document.getElementById('cartTotal').getAttribute('data-total');
+            var cartTotal = parseInt(cartTotalStr, 10);
+            var finalTotal = cartTotal + shippingFee;
+            
+            // Cập nhật giao diện
+            document.getElementById('shippingFeeDisplay').innerText = shippingFee.toLocaleString('vi-VN') + ' VNĐ';
+            document.getElementById('finalTotalDisplay').innerText = finalTotal.toLocaleString('vi-VN') + ' VNĐ';
+            
+            // Cập nhật input ẩn để gửi lên server
+            document.getElementById('shippingFeeInput').value = shippingFee;
+            
+            // Cập nhật QR Code nếu đang hiển thị
+            if (document.getElementById('payTransfer').checked) {
+                updateQRCode(finalTotal);
+            }
+        });
+
+        // Xử lý ẩn/hiện mã QR khi chọn phương thức thanh toán
+        var paymentRadios = document.querySelectorAll('input[name="paymentMethod"]');
+        paymentRadios.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (this.value === 'Chuyển khoản') {
+                    document.getElementById('qrCodeContainer').style.display = 'block';
+                    // Lấy tổng tiền hiện tại để tạo QR
+                    var cartTotalStr = document.getElementById('cartTotal').getAttribute('data-total');
+                    var shippingFeeStr = document.getElementById('shippingFeeInput').value;
+                    var finalTotal = parseInt(cartTotalStr, 10) + parseInt(shippingFeeStr, 10);
+                    updateQRCode(finalTotal);
+                } else {
+                    document.getElementById('qrCodeContainer').style.display = 'none';
+                }
+            });
+        });
+    </script>
+}

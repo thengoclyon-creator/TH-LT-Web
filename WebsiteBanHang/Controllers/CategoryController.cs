@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using WebsiteBanHang.Models;
 using WebsiteBanHang.Repositories;
 
 namespace WebsiteBanHang.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class CategoryController : Controller
     {
         private readonly ICategoryRepository _categoryRepository;
@@ -14,6 +16,7 @@ namespace WebsiteBanHang.Controllers
         }
 
         // Index: Hiển thị danh sách tất cả danh mục
+        [AllowAnonymous]
         public IActionResult Index()
         {
             var categories = _categoryRepository.GetAllCategories();
@@ -21,6 +24,7 @@ namespace WebsiteBanHang.Controllers
         }
 
         // Display: Xem chi tiết một danh mục
+        [AllowAnonymous]
         public IActionResult Display(int id)
         {
             var category = _categoryRepository.GetCategoryById(id);

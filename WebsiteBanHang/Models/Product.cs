@@ -26,5 +26,8 @@ namespace WebsiteBanHang.Models
 
         [Required(ErrorMessage = "Danh mục là bắt buộc")]
         public int? CategoryId { get; set; }
+
+        [System.ComponentModel.DataAnnotations.Schema.ForeignKey("CategoryId")]
+        public Category? Category { get; set; }
     }
 }
