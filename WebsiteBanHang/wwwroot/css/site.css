@@ -5,7 +5,8 @@
 /* Global Settings */
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
+    background-color: var(--bs-body-bg);
+    color: var(--bs-body-color);
 }
 
 /* Navbar */
@@ -50,10 +51,10 @@ body {
 
 /* Product Cards */
 .product-card {
-    border: 1px solid #e9ecef;
+    border: 1px solid var(--bs-border-color);
     border-radius: 12px;
     transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
-    background-color: #fff;
+    background-color: var(--bs-card-bg);
 }
 
 .product-card:hover {
@@ -84,17 +85,17 @@ body {
 .social-item {
     padding: 10px 15px;
     border-radius: 8px;
-    background-color: #f8f9fa;
-    color: #495057;
+    background-color: var(--bs-tertiary-bg);
+    color: var(--bs-body-color);
     transition: all 0.3s ease;
     border: 1px solid transparent;
 }
 
 .social-item:hover {
-    background-color: #fff;
+    background-color: var(--bs-secondary-bg);
     transform: translateX(10px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
-    color: #212529;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    color: var(--bs-body-color);
 }
 
 .icon-wrapper {
