@@ -78,50 +78,45 @@ namespace WebsiteBanHang.Areas.Admin.Controllers
             var existingProduct = _productRepository.GetProductById(id);
             if (existingProduct == null) return NotFound(new { message = "Không tìm thấy sản phẩm" });
 
+            // Cập nhật các trường cơ bản từ form sang đối tượng đang được theo dõi (tracking)
+            existingProduct.Name = product.Name;
+            existingProduct.Price = product.Price;
+            existingProduct.Description = product.Description;
+            existingProduct.CategoryId = product.CategoryId;
+            existingProduct.Size = product.Size;
+
             if (!string.IsNullOrEmpty(existingImageUrlsJson))
             {
                 try
                 {
-                    product.ImageUrls = System.Text.Json.JsonSerializer.Deserialize<List<string>>(existingImageUrlsJson) ?? new List<string>();
+                    existingProduct.ImageUrls = System.Text.Json.JsonSerializer.Deserialize<List<string>>(existingImageUrlsJson) ?? new List<string>();
                 }
                 catch
                 {
-                    product.ImageUrls = new List<string>();
+                    existingProduct.ImageUrls = new List<string>();
                 }
             }
 
             if (image != null)
             {
-                product.ImageUrl = await SaveImage(image);
-            }
-            else
-            {
-                product.ImageUrl = existingProduct.ImageUrl;
+                existingProduct.ImageUrl = await SaveImage(image);
             }
 
             if (images != null && images.Count > 0)
             {
-                if (product.ImageUrls == null) product.ImageUrls = new List<string>();
+                if (existingProduct.ImageUrls == null) existingProduct.ImageUrls = new List<string>();
                 foreach (var img in images)
                 {
-                    product.ImageUrls.Add(await SaveImage(img));
+                    existingProduct.ImageUrls.Add(await SaveImage(img));
                 }
-            }
-            else if (string.IsNullOrEmpty(existingImageUrlsJson))
-            {
-                product.ImageUrls = existingProduct.ImageUrls;
             }
 
             if (subImage != null)
             {
-                product.SubImageUrl = await SaveImage(subImage);
-            }
-            else
-            {
-                product.SubImageUrl = existingProduct.SubImageUrl;
+                existingProduct.SubImageUrl = await SaveImage(subImage);
             }
 
-            _productRepository.UpdateProduct(product);
+            _productRepository.UpdateProduct(existingProduct);
             return Ok(new { message = "Cập nhật sản phẩm thành công" });
         }
 

@@ -48,11 +48,7 @@
                 <input type="file" name="images" id="images" class="form-control" accept="image/*" multiple />
             </div>
 
-            <div class="mb-3">
-                <label asp-for="Size" class="form-label fw-bold">Kích cỡ / Tùy chọn (Ví dụ: S, M, L hoặc 128GB, 256GB)</label>
-                <input asp-for="Size" class="form-control" placeholder="Nhập các kích cỡ hoặc phiên bản..." />
-                <span asp-validation-for="Size" class="text-danger small"></span>
-            </div>
+
             
             <div class="mb-4">
                 <label asp-for="Description" class="form-label fw-bold">Mô tả chi tiết</label>
@@ -87,9 +83,11 @@
                 method: 'POST',
                 body: formData
             })
-            .then(response => {
+            .then(async response => {
                 if (!response.ok) {
-                    throw new Error('Có lỗi xảy ra khi gọi API');
+                    var errorData = await response.json();
+                    var errorMsg = errorData.message || JSON.stringify(errorData.errors || errorData);
+                    throw new Error(errorMsg);
                 }
                 return response.json();
             })
@@ -99,7 +97,7 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Thêm sản phẩm thất bại. Vui lòng thử lại.');
+                alert('Thêm thất bại: ' + error.message);
             })
             .finally(() => {
                 btnSubmit.innerHTML = originalText;
